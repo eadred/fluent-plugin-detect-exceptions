@@ -303,6 +303,25 @@ System.InvalidOperationException: This is an exception
    at ExampleApp2.AsyncExceptionExample.<TopLevelMethod>d__0.MoveNext() in c:/ExampleApp/ExampleApp/AsyncExceptionExample.cs:line 14
 END
 
+  CSHARP_AGGREGATE_EXC = <<END.freeze
+System.AggregateException: One or more errors occurred. (Something went wrong with number 1) (Something went wrong with number 2) (Something went wrong with number 3) ---> System.InvalidOperationException: Something went wrong with number 1
+  at ExampleApp.AggregateExceptionExample.InnerMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 39
+  at ExampleApp.AggregateExceptionExample.ParallelMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 34
+  --- End of inner exception stack trace ---
+  at System.Threading.Tasks.Task.WaitAllCore(Task[] tasks, Int32 millisecondsTimeout, CancellationToken cancellationToken)
+  at System.Threading.Tasks.Task.WaitAll(Task[] tasks)
+  at ExampleApp.AggregateExceptionExample.TopLevelMethod() in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 15
+---> (Inner Exception #0) System.InvalidOperationException: Something went wrong with number 1
+  at ExampleApp.AggregateExceptionExample.InnerMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 39
+  at ExampleApp.AggregateExceptionExample.ParallelMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 34<---
+---> (Inner Exception #1) System.InvalidOperationException: Something went wrong with number 2
+  at ExampleApp.AggregateExceptionExample.InnerMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 39
+  at ExampleApp.AggregateExceptionExample.ParallelMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 34<---
+---> (Inner Exception #2) System.InvalidOperationException: Something went wrong with number 3
+  at ExampleApp.AggregateExceptionExample.InnerMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 39
+  at ExampleApp.AggregateExceptionExample.ParallelMethod(Int32 someNumber) in C:\ExampleApp\ExampleApp\AggregateExceptionExample.cs:line 34<---
+END
+
   RUBY_EXC = <<END.freeze
  NoMethodError (undefined method `resursivewordload' for #<BooksController:0x007f8dd9a0c738>):
   app/controllers/books_controller.rb:69:in `recursivewordload'
@@ -619,6 +638,7 @@ END
     check_exception(CSHARP_EXC, false)
     check_exception(CSHARP_NESTED_EXC, false)
     check_exception(CSHARP_ASYNC_EXC, false)
+    check_exception(CSHARP_AGGREGATE_EXC, false)
   end
 
   def test_python
@@ -679,6 +699,7 @@ END
     check_exception(CSHARP_EXC, false)
     check_exception(CSHARP_NESTED_EXC, false)
     check_exception(CSHARP_ASYNC_EXC, false)
+    check_exception(CSHARP_AGGREGATE_EXC, false)
     check_exception(V8_JS_EXC, false)
     check_exception(RUBY_EXC, false)
     check_exception(DART_ERR, false)

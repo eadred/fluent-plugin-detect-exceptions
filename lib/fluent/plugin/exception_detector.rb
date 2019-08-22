@@ -71,6 +71,11 @@ module Fluent
            )location where exception was thrown ---$/,
            :java),
 
+      rule([:java_after_exception, :java],
+           # C# aggregate exception
+           /^---> \(Inner Exception #[0-9]+\)/,
+           :java),
+
       rule([:java_after_exception, :java], /^[\t ]*(?:Caused by|Suppressed):/,
            :java_after_exception),
       rule([:java_after_exception, :java],
